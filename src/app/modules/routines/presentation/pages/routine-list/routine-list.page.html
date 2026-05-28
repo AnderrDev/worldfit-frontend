@@ -1,0 +1,12 @@
+<section class="wf-routines">
+  <h2>Rutinas</h2>
+  <ul *ngIf="routines$ | async as routines; else loading">
+    <li *ngFor="let r of routines">
+      <strong>{{ r.name }}</strong> -
+      <em>{{ r.difficulty }}</em>
+      <small>({{ r.totalExercises }} ejercicios)</small>
+    </li>
+    <li *ngIf="routines.length === 0">No hay rutinas cargadas.</li>
+  </ul>
+  <ng-template #loading>Cargando rutinas...</ng-template>
+</section>

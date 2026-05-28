@@ -1,0 +1,43 @@
+# Dependencies
+/node_modules
+
+# Build outputs
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Angular cache
+/.angular/cache
+.angular
+
+# IDE / Editor
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Coverage
+/coverage
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log
+yarn-error.log
+*.log
+
+# Sonar
+.scannerwork/

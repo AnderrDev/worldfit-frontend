@@ -1,0 +1,12 @@
+<section class="wf-exercises">
+  <h2>Ejercicios</h2>
+  <ul *ngIf="exercises$ | async as exercises; else loading">
+    <li *ngFor="let e of exercises">
+      <strong>{{ e.name }}</strong>
+      <span class="group">{{ e.muscleGroup }}</span>
+      <span class="reps">{{ e.sets }}x{{ e.reps }}</span>
+    </li>
+    <li *ngIf="exercises.length === 0">No hay ejercicios cargados.</li>
+  </ul>
+  <ng-template #loading>Cargando ejercicios...</ng-template>
+</section>

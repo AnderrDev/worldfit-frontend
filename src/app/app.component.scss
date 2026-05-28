@@ -1,0 +1,16 @@
+.wf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--wf-secondary);
+
+  h1 { margin: 0; color: var(--wf-primary); }
+  nav a {
+    margin-left: 1rem;
+    color: var(--wf-text);
+    text-decoration: none;
+    &:hover { color: var(--wf-primary); }
+  }
+}
+.wf-content { padding: 1.5rem; }
