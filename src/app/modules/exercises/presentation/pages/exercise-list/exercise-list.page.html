@@ -1,12 +1,46 @@
 <section class="wf-exercises">
-  <h2>Ejercicios</h2>
-  <ul *ngIf="exercises$ | async as exercises; else loading">
-    <li *ngFor="let e of exercises">
-      <strong>{{ e.name }}</strong>
-      <span class="group">{{ e.muscleGroup }}</span>
-      <span class="reps">{{ e.sets }}x{{ e.reps }}</span>
-    </li>
-    <li *ngIf="exercises.length === 0">No hay ejercicios cargados.</li>
-  </ul>
-  <ng-template #loading>Cargando ejercicios...</ng-template>
+  <header class="wf-page-head wf-rise">
+    <span class="wf-eyebrow">Catálogo de movimientos</span>
+    <h1>EJERCICIOS</h1>
+    <p>Cada movimiento con sus series y repeticiones objetivo.</p>
+  </header>
+
+  <ng-container *ngIf="exercises$ | async as exercises; else loading">
+    <ul class="wf-ex-grid" *ngIf="exercises.length > 0; else empty">
+      <li
+        class="wf-ex wf-rise"
+        *ngFor="let e of exercises; let i = index"
+        [attr.data-group]="e.muscleGroup"
+        [style.animation-delay]="(i * 0.05) + 's'">
+        <span class="wf-ex__chip">{{ muscleLabels[e.muscleGroup] }}</span>
+
+        <h3 class="wf-ex__name">{{ e.name }}</h3>
+
+        <div class="wf-ex__metrics">
+          <span class="wf-ex__metric">
+            <span class="v">{{ e.sets }}</span>
+            <span class="k">series</span>
+          </span>
+          <span class="wf-ex__times">×</span>
+          <span class="wf-ex__metric">
+            <span class="v">{{ e.reps }}</span>
+            <span class="k">reps</span>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="wf-empty">
+      <h3>Sin ejercicios todavía</h3>
+      <p>Aún no hay movimientos en el catálogo. Vuelve pronto.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #loading>
+    <ul class="wf-ex-grid" aria-hidden="true">
+      <li class="wf-ex-skeleton" *ngFor="let s of [1,2,3,4,5,6,7,8]"></li>
+    </ul>
+  </ng-template>
 </section>

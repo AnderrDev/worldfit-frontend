@@ -1,15 +1,68 @@
 <section class="wf-login">
-  <h2>Iniciar sesion</h2>
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <label>
-      Email
-      <input type="email" formControlName="email" />
-    </label>
-    <label>
-      Password
-      <input type="password" formControlName="password" />
-    </label>
-    <button type="submit" [disabled]="form.invalid">Entrar</button>
-  </form>
-  <p class="wf-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <!-- Panel narrativo -->
+  <aside class="wf-login__hero wf-rise">
+    <span class="wf-eyebrow">Bienvenido de nuevo</span>
+    <h1 class="wf-login__title">
+      ENTRENA<br><span class="accent">CON INTENCIÓN</span>
+    </h1>
+    <p class="wf-login__lead">
+      Tus rutinas, tu progreso y cada repetición en un solo lugar.
+      Entra y retoma justo donde lo dejaste.
+    </p>
+
+    <ul class="wf-login__stats">
+      <li>
+        <span class="num">120+</span>
+        <span class="cap">Ejercicios</span>
+      </li>
+      <li>
+        <span class="num">24</span>
+        <span class="cap">Rutinas</span>
+      </li>
+      <li>
+        <span class="num">∞</span>
+        <span class="cap">Motivación</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Tarjeta de formulario -->
+  <div class="wf-login__card wf-rise" style="animation-delay: 0.08s">
+    <header class="wf-login__head">
+      <h2>Iniciar sesión</h2>
+      <p>Introduce tus credenciales para continuar.</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label class="wf-field">
+        <span class="wf-field__label">Email</span>
+        <input
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="atleta@worldfit.com" />
+      </label>
+
+      <label class="wf-field">
+        <span class="wf-field__label">Contraseña</span>
+        <input
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          placeholder="••••••••" />
+      </label>
+
+      <button type="submit" class="wf-submit" [disabled]="form.invalid">
+        <span>Entrar</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor"
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <p class="wf-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+    </form>
+
+    <p class="wf-login__foot">¿Aún no entrenas con nosotros? <a href="#">Crea tu cuenta</a></p>
+  </div>
 </section>

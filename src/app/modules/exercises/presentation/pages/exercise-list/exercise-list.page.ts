@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetAllExercisesUseCase } from '../../../domain/usecases/get-all-exercises.usecase';
-import { Exercise } from '../../../domain/entities/exercise.entity';
+import { Exercise, MuscleGroup } from '../../../domain/entities/exercise.entity';
 
 @Component({
   selector: 'wf-exercise-list',
@@ -10,6 +10,16 @@ import { Exercise } from '../../../domain/entities/exercise.entity';
 })
 export class ExerciseListPageComponent implements OnInit {
   exercises$!: Observable<Exercise[]>;
+
+  readonly muscleLabels: Record<MuscleGroup, string> = {
+    chest: 'Pecho',
+    back: 'Espalda',
+    legs: 'Piernas',
+    shoulders: 'Hombros',
+    arms: 'Brazos',
+    core: 'Core',
+    fullbody: 'Cuerpo completo'
+  };
 
   constructor(private readonly getAllExercises: GetAllExercisesUseCase) {}
 

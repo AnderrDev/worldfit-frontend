@@ -1,12 +1,51 @@
 <section class="wf-routines">
-  <h2>Rutinas</h2>
-  <ul *ngIf="routines$ | async as routines; else loading">
-    <li *ngFor="let r of routines">
-      <strong>{{ r.name }}</strong> -
-      <em>{{ r.difficulty }}</em>
-      <small>({{ r.totalExercises }} ejercicios)</small>
-    </li>
-    <li *ngIf="routines.length === 0">No hay rutinas cargadas.</li>
-  </ul>
-  <ng-template #loading>Cargando rutinas...</ng-template>
+  <header class="wf-page-head wf-rise">
+    <span class="wf-eyebrow">Tu plan de ataque</span>
+    <h1>RUTINAS</h1>
+    <p>Elige tu sesión y empieza a sumar repeticiones.</p>
+  </header>
+
+  <ng-container *ngIf="routines$ | async as routines; else loading">
+    <ul class="wf-grid" *ngIf="routines.length > 0; else empty">
+      <li
+        class="wf-card wf-rise"
+        *ngFor="let r of routines; let i = index"
+        [attr.data-level]="r.difficulty"
+        [style.animation-delay]="(i * 0.06) + 's'">
+        <div class="wf-card__top">
+          <span class="wf-badge">{{ difficultyLabels[r.difficulty] }}</span>
+          <span class="wf-card__index">{{ (i + 1) < 10 ? '0' : '' }}{{ i + 1 }}</span>
+        </div>
+
+        <h3 class="wf-card__title">{{ r.name }}</h3>
+        <p class="wf-card__desc">{{ r.description }}</p>
+
+        <div class="wf-card__foot">
+          <span class="wf-metric">
+            <span class="wf-metric__num">{{ r.totalExercises }}</span>
+            <span class="wf-metric__cap">ejercicios</span>
+          </span>
+          <span class="wf-card__go" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor"
+                stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="wf-empty">
+      <h3>Sin rutinas todavía</h3>
+      <p>Cuando crees una rutina, aparecerá aquí lista para entrenar.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #loading>
+    <ul class="wf-grid" aria-hidden="true">
+      <li class="wf-skeleton" *ngFor="let s of [1,2,3,4,5,6]"></li>
+    </ul>
+  </ng-template>
 </section>

@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   readonly title = 'WorldFit';
+  readonly year = new Date().getFullYear();
 }
