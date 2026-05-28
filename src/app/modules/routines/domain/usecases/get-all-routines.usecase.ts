@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RoutineRepository } from '../../domain/repositories/routine.repository';
-import { Routine } from '../../domain/entities/routine.entity';
+import { RoutineRepository } from '../repositories/routine.repository';
+import { Routine } from '../entities/routine.entity';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class GetAllRoutinesUseCase {
   constructor(private readonly routineRepository: RoutineRepository) {}
 

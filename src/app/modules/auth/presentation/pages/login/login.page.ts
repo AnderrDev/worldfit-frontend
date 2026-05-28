@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginUseCase } from '../../../application/use-cases/login.use-case';
+import { LoginUseCase } from '../../../domain/usecases/login.usecase';
 
 @Component({
   selector: 'wf-login-page',
