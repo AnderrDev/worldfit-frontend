@@ -1,11 +1,33 @@
+<a class="wf-skip" href="#wf-main">Saltar al contenido</a>
+
 <header class="wf-header">
-  <h1>{{ title }}</h1>
-  <nav>
-    <a routerLink="/auth">Auth</a>
-    <a routerLink="/routines">Rutinas</a>
-    <a routerLink="/exercises">Ejercicios</a>
-  </nav>
+  <div class="wf-header__bar">
+    <a class="wf-brand" routerLink="/routines" aria-label="WorldFit — inicio">
+      <svg class="wf-brand__mark" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="currentColor" />
+      </svg>
+      <span class="wf-brand__word">WORLD<em>FIT</em></span>
+    </a>
+
+    <nav class="wf-nav" aria-label="Navegación principal">
+      <a routerLink="/routines" routerLinkActive="is-active">
+        <span>Rutinas</span>
+      </a>
+      <a routerLink="/exercises" routerLinkActive="is-active">
+        <span>Ejercicios</span>
+      </a>
+      <a class="wf-nav__cta" routerLink="/auth" routerLinkActive="is-active">
+        Entrar
+      </a>
+    </nav>
+  </div>
 </header>
-<main class="wf-content">
+
+<main id="wf-main" class="wf-content">
   <router-outlet></router-outlet>
 </main>
+
+<footer class="wf-footer">
+  <span class="wf-footer__word">{{ title }}</span>
+  <span class="wf-footer__note">Entrena con intención · {{ year }}</span>
+</footer>

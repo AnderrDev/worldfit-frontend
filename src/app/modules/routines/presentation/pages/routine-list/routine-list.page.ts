@@ -11,6 +11,12 @@ import { Routine } from '../../../domain/entities/routine.entity';
 export class RoutineListPageComponent implements OnInit {
   routines$!: Observable<Routine[]>;
 
+  readonly difficultyLabels: Record<Routine['difficulty'], string> = {
+    beginner: 'Principiante',
+    intermediate: 'Intermedio',
+    advanced: 'Avanzado'
+  };
+
   constructor(private readonly getAllRoutines: GetAllRoutinesUseCase) {}
 
   ngOnInit(): void {

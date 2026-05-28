@@ -1,16 +1,175 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
 .wf-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--wf-line);
+}
+
+/* hairline azul bajo el header */
+.wf-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--wf-grad-blue);
+  opacity: 0.6;
+}
+
+.wf-header__bar {
+  max-width: var(--wf-shell-max);
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
-  background: var(--wf-secondary);
+  gap: 1rem;
+}
 
-  h1 { margin: 0; color: var(--wf-primary); }
-  nav a {
-    margin-left: 1rem;
-    color: var(--wf-text);
-    text-decoration: none;
-    &:hover { color: var(--wf-primary); }
+/* ─── Marca ──────────────────────────────────────────────── */
+.wf-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wf-brand__mark {
+  width: 1.55rem;
+  height: 1.55rem;
+  color: var(--wf-blue-1);
+  filter: drop-shadow(0 4px 8px rgba(37, 99, 235, 0.35));
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wf-brand:hover .wf-brand__mark {
+  transform: rotate(-12deg) scale(1.08);
+}
+
+.wf-brand__word {
+  font-family: var(--wf-display);
+  font-size: 1.7rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--wf-text);
+
+  em {
+    font-style: normal;
+    background: var(--wf-grad-blue);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
-.wf-content { padding: 1.5rem; }
+
+/* ─── Navegación ─────────────────────────────────────────── */
+.wf-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  a {
+    position: relative;
+    padding: 0.5rem 0.85rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--wf-muted);
+    border-radius: 999px;
+    transition: color 0.2s ease, background 0.2s ease;
+
+    span::after {
+      content: '';
+      position: absolute;
+      left: 0.85rem;
+      right: 0.85rem;
+      bottom: 0.28rem;
+      height: 2px;
+      background: var(--wf-grad-blue);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &:hover {
+      color: var(--wf-text);
+    }
+    &:hover span::after,
+    &.is-active span::after {
+      transform: scaleX(1);
+    }
+    &.is-active {
+      color: var(--wf-blue-1);
+    }
+  }
+
+  /* CTA "Entrar" */
+  .wf-nav__cta {
+    margin-left: 0.35rem;
+    padding: 0.55rem 1.25rem;
+    color: #ffffff;
+    background: var(--wf-grad-blue);
+    box-shadow: 0 10px 24px -12px rgba(37, 99, 235, 0.8);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px -12px rgba(37, 99, 235, 0.95);
+    }
+    &.is-active {
+      box-shadow: var(--wf-glow);
+    }
+  }
+}
+
+/* ─── Contenido ──────────────────────────────────────────── */
+.wf-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--wf-shell-max);
+  margin: 0 auto;
+  padding: clamp(1.75rem, 4vw, 3.5rem) 1.5rem 4rem;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.wf-footer {
+  border-top: 1px solid var(--wf-line);
+  padding: 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.wf-footer__word {
+  font-family: var(--wf-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--wf-muted);
+}
+.wf-footer__note {
+  font-family: var(--wf-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--wf-faint);
+  text-transform: uppercase;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .wf-nav a:not(.wf-nav__cta) {
+    padding: 0.5rem 0.55rem;
+  }
+  .wf-brand__word {
+    font-size: 1.45rem;
+  }
+}

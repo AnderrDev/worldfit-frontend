@@ -1,15 +1,218 @@
-/* WorldFit - estilos globales */
+/* ============================================================
+   WorldFit — Sistema de diseño global · "Clean & Blue"
+   Aesthetic: clara / saludable · blanco + azul
+   Display: Bebas Neue · Body: Hanken Grotesk · Metrics: JetBrains Mono
+   ============================================================ */
+
 :root {
-  --wf-primary: #ff6b35;
-  --wf-secondary: #1f2937;
-  --wf-bg: #0b1220;
-  --wf-text: #f3f4f6;
+  /* — Brand / azul — */
+  --wf-blue-1: #2563eb;          /* azul principal */
+  --wf-blue-2: #0ea5e9;          /* cielo */
+  --wf-blue-3: #06b6d4;          /* cian */
+  --wf-blue-ink: #1e3a8a;        /* azul marino para texto sobre azul claro */
+
+  --wf-grad-blue: linear-gradient(135deg, var(--wf-blue-1) 0%, var(--wf-blue-2) 60%, var(--wf-blue-3) 100%);
+
+  /* — Superficies (claras) — */
+  --wf-bg: #f6f8fc;
+  --wf-bg-2: #eef3fa;
+  --wf-surface: #ffffff;
+  --wf-surface-2: #fbfcff;
+  --wf-surface-3: #eef3fa;
+  --wf-line: rgba(15, 23, 42, 0.09);
+  --wf-line-strong: rgba(15, 23, 42, 0.16);
+
+  /* — Texto — */
+  --wf-text: #0f1f3d;
+  --wf-muted: #51607a;
+  --wf-faint: #94a3b8;
+
+  /* — Estados (semánticos, suaves) — */
+  --wf-danger: #e11d48;
+  --wf-beginner: #10b981;        /* verde */
+  --wf-intermediate: #f59e0b;    /* ámbar */
+  --wf-advanced: #ef4444;        /* rojo suave */
+
+  /* — Tipografía — */
+  --wf-display: 'Bebas Neue', 'Hanken Grotesk', sans-serif;
+  --wf-body: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --wf-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* — Forma / profundidad — */
+  --wf-radius: 18px;
+  --wf-radius-sm: 12px;
+  --wf-shadow: 0 24px 60px -30px rgba(30, 58, 138, 0.3);
+  --wf-shadow-card: 0 12px 34px -22px rgba(30, 58, 138, 0.28);
+  --wf-glow: 0 0 0 1px rgba(37, 99, 235, 0.35), 0 18px 46px -18px rgba(37, 99, 235, 0.45);
+
+  /* — Alias retro-compatibles — */
+  --wf-primary: var(--wf-blue-1);
+  --wf-secondary: var(--wf-surface);
+
+  --wf-shell-max: 1120px;
 }
 
-html, body {
+/* — Reset suave — */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--wf-bg);
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--wf-body);
+  font-size: 16px;
+  line-height: 1.55;
   color: var(--wf-text);
+  background-color: var(--wf-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* — Atmósfera: malla de luz azul muy sutil — */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(900px 600px at 88% -10%, rgba(14, 165, 233, 0.14), transparent 60%),
+    radial-gradient(800px 520px at -8% 8%, rgba(37, 99, 235, 0.1), transparent 55%),
+    radial-gradient(1000px 700px at 50% 118%, rgba(6, 182, 212, 0.08), transparent 60%),
+    linear-gradient(180deg, var(--wf-bg) 0%, var(--wf-bg-2) 100%);
+}
+
+/* — Atmósfera: grano fino muy tenue — */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* — Tipografía base — */
+h1, h2, h3, h4 {
+  font-family: var(--wf-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--wf-blue-1);
+  color: #ffffff;
+}
+
+/* — Foco accesible — */
+:focus-visible {
+  outline: 2px solid var(--wf-blue-1);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* — Scrollbar — */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--wf-bg-2);
+}
+::-webkit-scrollbar-thumb {
+  background: #cdd9ec;
+  border: 3px solid var(--wf-bg-2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--wf-blue-2);
+}
+
+/* — Skip link — */
+.wf-skip {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--wf-blue-1);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 0 0 var(--wf-radius-sm) var(--wf-radius-sm);
+  transition: top 0.2s ease;
+}
+.wf-skip:focus {
+  top: 0;
+}
+
+/* — Eyebrow / kicker reutilizable — */
+.wf-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--wf-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--wf-blue-1);
+}
+.wf-eyebrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 2px;
+  background: var(--wf-grad-blue);
+  border-radius: 2px;
+}
+
+/* — Animaciones globales — */
+@keyframes wf-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wf-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(0.82); }
+}
+
+@keyframes wf-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.wf-rise {
+  opacity: 0;
+  animation: wf-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .wf-rise { opacity: 1; }
 }

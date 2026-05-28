@@ -1,12 +1,149 @@
-.wf-exercises {
-  ul { list-style: none; padding: 0; }
-  li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #333;
-    display: flex;
-    gap: 0.75rem;
-    align-items: baseline;
-    .group { color: var(--wf-primary); }
-    .reps { opacity: 0.8; }
+/* ─── Cabecera de página ─────────────────────────────────── */
+.wf-page-head {
+  margin-bottom: 2.25rem;
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    letter-spacing: 0.02em;
+    margin: 0.5rem 0 0.4rem;
+    color: var(--wf-text);
   }
+  p {
+    color: var(--wf-muted);
+    max-width: 48ch;
+  }
+}
+
+/* ─── Rejilla de ejercicios ──────────────────────────────── */
+.wf-ex-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+/* ─── Tarjeta de ejercicio ───────────────────────────────── */
+.wf-ex {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.2rem;
+  background: var(--wf-surface);
+  border: 1px solid var(--wf-line);
+  border-radius: var(--wf-radius);
+  box-shadow: var(--wf-shadow-card);
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+/* punto de color por grupo muscular */
+.wf-ex::before {
+  content: '';
+  position: absolute;
+  top: 1.35rem;
+  right: 1.2rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--grp, var(--wf-blue-1));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--grp, var(--wf-blue-1)) 18%, transparent);
+}
+
+.wf-ex:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--grp, var(--wf-blue-1)) 45%, var(--wf-line-strong));
+  box-shadow: 0 22px 40px -24px rgba(30, 58, 138, 0.38);
+}
+
+/* paleta por grupo muscular (legible sobre blanco) */
+.wf-ex[data-group='chest']     { --grp: #2563eb; }
+.wf-ex[data-group='back']      { --grp: #0ea5e9; }
+.wf-ex[data-group='legs']      { --grp: #0891b2; }
+.wf-ex[data-group='shoulders'] { --grp: #6366f1; }
+.wf-ex[data-group='arms']      { --grp: #db2777; }
+.wf-ex[data-group='core']      { --grp: #7c3aed; }
+.wf-ex[data-group='fullbody']  { --grp: #059669; }
+
+.wf-ex__chip {
+  align-self: flex-start;
+  font-family: var(--wf-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  color: var(--grp, var(--wf-blue-1));
+  background: color-mix(in srgb, var(--grp, var(--wf-blue-1)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--grp, var(--wf-blue-1)) 32%, transparent);
+}
+
+.wf-ex__name {
+  font-size: 1.45rem;
+  letter-spacing: 0.03em;
+  color: var(--wf-text);
+  line-height: 1;
+}
+
+.wf-ex__metrics {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.7rem;
+}
+
+.wf-ex__metric {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+
+  .v {
+    font-family: var(--wf-display);
+    font-size: 2.1rem;
+    color: var(--wf-text);
+  }
+  .k {
+    font-family: var(--wf-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--wf-faint);
+    margin-top: 0.25rem;
+  }
+}
+
+.wf-ex__times {
+  font-family: var(--wf-display);
+  font-size: 1.5rem;
+  color: var(--grp, var(--wf-blue-1));
+  padding-bottom: 0.85rem;
+}
+
+/* ─── Estado vacío ───────────────────────────────────────── */
+.wf-empty {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  border: 1px dashed var(--wf-line-strong);
+  border-radius: var(--wf-radius);
+  background: rgba(37, 99, 235, 0.025);
+
+  h3 { font-size: 2rem; color: var(--wf-text); }
+  p { margin-top: 0.5rem; color: var(--wf-muted); }
+}
+
+/* ─── Skeleton ───────────────────────────────────────────── */
+.wf-ex-skeleton {
+  min-height: 150px;
+  border-radius: var(--wf-radius);
+  border: 1px solid var(--wf-line);
+  background: linear-gradient(100deg,
+    var(--wf-surface) 30%,
+    var(--wf-surface-3) 50%,
+    var(--wf-surface) 70%);
+  background-size: 200% 100%;
+  animation: wf-shimmer 1.4s linear infinite;
 }
