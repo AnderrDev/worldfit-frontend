@@ -7,21 +7,34 @@ Frontend construido con **Angular 17** y **Clean Architecture modular**.
 
 ## Arquitectura
 
-Cada feature module tiene 4 capas:
+Clean Architecture **por modulo**, con 3 capas: `domain`, `data` y `presentation`.
 
 ```
 modules/<feature>/
-  domain/            <- Entidades + contratos (abstract class) de repositorio
-  application/       <- Casos de uso (Use Cases). Logica de aplicacion pura
-  infrastructure/    <- Adaptadores: HTTP repos, mapeo DTO -> Entidad
-  presentation/      <- Componentes y paginas Angular (UI)
+  domain/                 <- Nucleo, sin framework ni HTTP
+    entities/             <- Entidades de dominio puras
+    repositories/         <- Contratos de repositorio (abstract class)
+    usecases/             <- Casos de uso (logica de aplicacion)
+  data/                   <- Acceso a datos (implementa el dominio)
+    datasources/          <- Fuentes de datos (HTTP). Devuelven DTOs
+    repositories/         <- Implementaciones (RepositoryImpl): mapean DTO -> Entidad
+  presentation/           <- UI
+    pages/                <- Componentes y paginas Angular
 ```
 
 Reglas de dependencia (Clean Architecture):
 
 ```
-presentation -> application -> domain
-infrastructure -> domain   (implementa los puertos)
+presentation -> domain (usecases -> repositories)
+data         -> domain (RepositoryImpl implementa el contrato del repo)
+domain       -> no depende de nadie
+```
+
+Flujo de una peticion:
+
+```
+Page -> UseCase -> Repository (contrato) -> RepositoryImpl -> DataSource -> HTTP
+                                              (mapea DTO -> Entidad)
 ```
 
 El `core/` contiene servicios singleton (interceptors, guards) que solo se importan en `AppModule`.

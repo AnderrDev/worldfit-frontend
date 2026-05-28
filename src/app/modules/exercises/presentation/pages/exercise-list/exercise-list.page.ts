@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetAllExercisesUseCase } from '../../../application/use-cases/get-all-exercises.use-case';
+import { GetAllExercisesUseCase } from '../../../domain/usecases/get-all-exercises.usecase';
 import { Exercise } from '../../../domain/entities/exercise.entity';
 
 @Component({
