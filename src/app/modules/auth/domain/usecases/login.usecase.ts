@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthRepository } from '../../domain/repositories/auth.repository';
-import { AuthSession } from '../../domain/entities/user.entity';
+import { AuthRepository } from '../repositories/auth.repository';
+import { AuthSession } from '../entities/user.entity';
 
-/**
- * Caso de uso: Login.
- * Orquesta la regla de aplicacion. Solo depende del puerto (AuthRepository).
- */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LoginUseCase {
   constructor(private readonly authRepository: AuthRepository) {}
 

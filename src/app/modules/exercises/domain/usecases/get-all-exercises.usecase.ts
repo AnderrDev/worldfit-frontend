@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ExerciseRepository } from '../../domain/repositories/exercise.repository';
-import { Exercise } from '../../domain/entities/exercise.entity';
+import { ExerciseRepository } from '../repositories/exercise.repository';
+import { Exercise } from '../entities/exercise.entity';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class GetAllExercisesUseCase {
   constructor(private readonly exerciseRepository: ExerciseRepository) {}
 

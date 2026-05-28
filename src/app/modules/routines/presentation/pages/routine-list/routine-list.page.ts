@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetAllRoutinesUseCase } from '../../../application/use-cases/get-all-routines.use-case';
+import { GetAllRoutinesUseCase } from '../../../domain/usecases/get-all-routines.usecase';
 import { Routine } from '../../../domain/entities/routine.entity';
 
 @Component({
