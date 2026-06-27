@@ -16,6 +16,13 @@ type ExerciseLookup = {
   muscleGroup: string;
 };
 
+type UserLookup = {
+  id: number;
+  name: string;
+  email: string;
+  role?: string;
+};
+
 @Component({
   selector: 'wf-routine-list',
   templateUrl: './routine-list.page.html',
@@ -23,6 +30,7 @@ type ExerciseLookup = {
 })
 export class RoutineListPageComponent implements OnInit {
   routines: Routine[] = [];
+  users: UserLookup[] = [];
   form: FormGroup;
   editing: Routine | null = null;
   loading = false;
@@ -56,7 +64,7 @@ export class RoutineListPageComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       difficulty: ['beginner', Validators.required],
-      assignedUserId: [1, [Validators.required, Validators.min(1)]],
+      assignedUserId: [null, [Validators.required, Validators.min(1)]],
       exerciseIds: [[]]
     });
   }
@@ -64,6 +72,7 @@ export class RoutineListPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadRoutines();
     this.loadExercises();
+    this.loadUsers();
   }
 
   loadRoutines(): void {
@@ -157,7 +166,7 @@ export class RoutineListPageComponent implements OnInit {
       name: '',
       description: '',
       difficulty: 'beginner',
-      assignedUserId: 1,
+      assignedUserId: null,
       exerciseIds: []
     });
   }
@@ -204,6 +213,17 @@ export class RoutineListPageComponent implements OnInit {
       error: () => {
         this.availableExercises = [];
         this.exercisesById = {};
+      }
+    });
+  }
+
+  private loadUsers(): void {
+    this.http.get<UserLookup[]>(`${environment.apiUrl}/users`).subscribe({
+      next: (users) => {
+        this.users = users;
+      },
+      error: () => {
+        this.users = [];
       }
     });
   }

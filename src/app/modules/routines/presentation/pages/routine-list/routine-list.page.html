@@ -37,7 +37,13 @@
 
         <div class="mb-3">
           <label class="form-label">Usuario asignado</label>
-          <input class="form-control" type="number" min="1" formControlName="assignedUserId">
+          <select class="form-select" formControlName="assignedUserId">
+            <option [ngValue]="null">Selecciona un usuario</option>
+            <option *ngFor="let user of users" [ngValue]="user.id">
+              {{ user.name }} - {{ user.email }}{{ user.role ? ' (' + user.role + ')' : '' }}
+            </option>
+          </select>
+          <div class="form-text">Solo los usuarios activos aparecen en esta lista.</div>
         </div>
 
         <div class="mb-3">
