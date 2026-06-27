@@ -11,7 +11,7 @@ export interface ExerciseDto {
   muscleGroup: MuscleGroup;
   sets: number;
   reps: number;
-  status: number;
+  categoryId: number;
 }
 
 @Injectable()

@@ -27,6 +27,13 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" formControlName="categoryId">
+            <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label">Grupo muscular</label>
           <select class="form-select" formControlName="muscleGroup">
             <option *ngFor="let option of muscleOptions" [value]="option.value">{{ option.label }}</option>

@@ -14,7 +14,8 @@ export class Exercise {
     public readonly muscleGroup: MuscleGroup,
     public readonly sets: number,
     public readonly reps: number,
-    public readonly description: string = ''
+    public readonly description: string = '',
+    public readonly categoryId: number = 0
   ) {}
 }
 
@@ -24,5 +25,5 @@ export type ExerciseFormData = {
   muscleGroup: MuscleGroup;
   sets: number;
   reps: number;
-  status: number;
+  categoryId: number;
 };

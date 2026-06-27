@@ -36,7 +36,8 @@ export class RoutineRepositoryImpl extends RoutineRepository {
       dto.name,
       dto.description,
       dto.difficulty,
-      (dto.exerciseIds ?? []).map(String),
+      (dto.exercises ?? []).map((e) => String(e.exerciseId)),
+      dto.durationMinutes ?? 0,
       dto.assignedUserId,
       dto.assignmentStatus
     );

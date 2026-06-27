@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { GetAllExercisesUseCase } from '../../../domain/usecases/get-all-exercises.usecase';
 import { Exercise, ExerciseFormData, MuscleGroup } from '../../../domain/entities/exercise.entity';
 import { ExerciseRepository } from '../../../domain/repositories/exercise.repository';
 import { SessionService } from '@core/services/session.service';
+import { environment } from '@env/environment';
+
+type CategoryLookup = { id: number; name: string };
 
 @Component({
   selector: 'wf-exercise-list',
@@ -12,6 +16,7 @@ import { SessionService } from '@core/services/session.service';
 })
 export class ExerciseListPageComponent implements OnInit {
   exercises: Exercise[] = [];
+  categories: CategoryLookup[] = [];
   form: FormGroup;
   editing: Exercise | null = null;
   loading = false;
@@ -41,6 +46,7 @@ export class ExerciseListPageComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
+    private readonly http: HttpClient,
     public readonly session: SessionService,
     private readonly getAllExercises: GetAllExercisesUseCase,
     private readonly exerciseRepository: ExerciseRepository
@@ -50,12 +56,26 @@ export class ExerciseListPageComponent implements OnInit {
       description: [''],
       muscleGroup: ['chest', Validators.required],
       sets: [3, [Validators.required, Validators.min(1)]],
-      reps: [10, [Validators.required, Validators.min(1)]]
+      reps: [10, [Validators.required, Validators.min(1)]],
+      categoryId: [null, [Validators.required, Validators.min(1)]]
     });
   }
 
   ngOnInit(): void {
     this.loadExercises();
+    this.loadCategories();
+  }
+
+  private loadCategories(): void {
+    this.http.get<CategoryLookup[]>(`${environment.apiUrl}/categories`).subscribe({
+      next: (cats) => {
+        this.categories = cats;
+        if (cats.length > 0 && !this.form.value.categoryId) {
+          this.form.patchValue({ categoryId: cats[0].id });
+        }
+      },
+      error: () => { this.categories = []; }
+    });
   }
 
   loadExercises(): void {
@@ -85,7 +105,7 @@ export class ExerciseListPageComponent implements OnInit {
       muscleGroup: this.form.value.muscleGroup,
       sets: Number(this.form.value.sets),
       reps: Number(this.form.value.reps),
-      status: 1
+      categoryId: Number(this.form.value.categoryId)
     };
 
     this.saving = true;
@@ -119,7 +139,8 @@ export class ExerciseListPageComponent implements OnInit {
       description: exercise.description,
       muscleGroup: exercise.muscleGroup,
       sets: exercise.sets,
-      reps: exercise.reps
+      reps: exercise.reps,
+      categoryId: exercise.categoryId || this.categories[0]?.id || null
     });
   }
 
@@ -130,7 +151,8 @@ export class ExerciseListPageComponent implements OnInit {
       description: '',
       muscleGroup: 'chest',
       sets: 3,
-      reps: 10
+      reps: 10,
+      categoryId: this.categories[0]?.id ?? null
     });
   }
 

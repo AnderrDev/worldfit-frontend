@@ -99,13 +99,19 @@ export class RoutineListPageComponent implements OnInit {
       return;
     }
 
+    const selectedIds: number[] = this.form.value.exerciseIds ?? [];
     const payload: RoutineFormData = {
       name: this.form.value.name,
       description: this.form.value.description ?? '',
       difficulty: this.form.value.difficulty,
       assignedUserId: Number(this.form.value.assignedUserId),
-      exerciseIds: this.form.value.exerciseIds ?? [],
-      status: 1
+      exercises: selectedIds.map((exerciseId, idx) => ({
+        exerciseId,
+        sets: this.exercisesById[String(exerciseId)]?.sets ?? 3,
+        repetitions: this.exercisesById[String(exerciseId)]?.reps ?? 10,
+        exerciseOrder: idx + 1,
+        notes: ''
+      }))
     };
 
     this.saving = true;
@@ -148,11 +154,8 @@ export class RoutineListPageComponent implements OnInit {
   }
 
   approximateDuration(routine: Routine): number {
-    const baseByLevel = {
-      beginner: 8,
-      intermediate: 10,
-      advanced: 12
-    };
+    if (routine.durationMinutes > 0) return routine.durationMinutes;
+    const baseByLevel = { beginner: 8, intermediate: 10, advanced: 12 };
     return Math.max(15, routine.totalExercises * baseByLevel[routine.difficulty]);
   }
 

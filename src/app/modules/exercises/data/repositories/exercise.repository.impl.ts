@@ -31,6 +31,6 @@ export class ExerciseRepositoryImpl extends ExerciseRepository {
   }
 
   private toDomain(dto: ExerciseDto): Exercise {
-    return new Exercise(String(dto.id), dto.name, dto.muscleGroup, dto.sets, dto.reps, dto.description);
+    return new Exercise(String(dto.id), dto.name, dto.muscleGroup, dto.sets, dto.reps, dto.description, dto.categoryId ?? 0);
   }
 }

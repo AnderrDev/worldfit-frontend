@@ -11,15 +11,15 @@ type UserDto = {
   email: string;
   password?: string;
   role: UserRole;
-  status: number;
 };
+
+type RoleDto = { id: number; name: string };
 
 type UserPayload = {
   name: string;
   email: string;
   password?: string;
-  role: UserRole;
-  status: number;
+  roleId?: number;
 };
 
 @Component({
@@ -29,6 +29,7 @@ type UserPayload = {
 })
 export class UserListPageComponent implements OnInit {
   users: UserDto[] = [];
+  roles: RoleDto[] = [];
   form: FormGroup;
   editing: UserDto | null = null;
   loading = false;
@@ -52,6 +53,14 @@ export class UserListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
+    this.loadRoles();
+  }
+
+  private loadRoles(): void {
+    this.http.get<RoleDto[]>(`${environment.apiUrl}/roles`).subscribe({
+      next: (roles) => { this.roles = roles; },
+      error: () => { this.roles = []; }
+    });
   }
 
   loadUsers(): void {
@@ -75,12 +84,12 @@ export class UserListPageComponent implements OnInit {
       return;
     }
 
+    const selectedRole = this.roles.find(r => r.name === this.form.value.role);
     const payload: UserPayload = {
       name: this.form.value.name,
       email: this.form.value.email,
       password: this.form.value.password || undefined,
-      role: this.form.value.role,
-      status: 1
+      roleId: selectedRole?.id
     };
 
     if (!this.editing && !payload.password) {

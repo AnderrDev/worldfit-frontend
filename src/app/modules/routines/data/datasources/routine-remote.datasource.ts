@@ -4,15 +4,26 @@ import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { RoutineFormData } from '../../domain/entities/routine.entity';
 
+export interface RoutineExerciseDto {
+  id: number;
+  exerciseId: number;
+  exerciseName: string;
+  sets: number;
+  repetitions: number;
+  description: string;
+  exerciseOrder: number;
+  notes: string;
+}
+
 export interface RoutineDto {
   id: string;
   name: string;
   description: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
-  exerciseIds: string[];
+  exercises: RoutineExerciseDto[];
+  durationMinutes: number;
   assignedUserId: number;
   assignmentStatus: 'pending' | 'accepted' | 'rejected';
-  status: number;
 }
 
 @Injectable()
