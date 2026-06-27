@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
+import { RoutineFormData } from '../../domain/entities/routine.entity';
 
 export interface RoutineDto {
   id: string;
@@ -9,6 +10,9 @@ export interface RoutineDto {
   description: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   exerciseIds: string[];
+  assignedUserId: number;
+  assignmentStatus: 'pending' | 'accepted' | 'rejected';
+  status: number;
 }
 
 @Injectable()
@@ -25,15 +29,15 @@ export class RoutineRemoteDataSource {
     return this.http.get<RoutineDto>(`${this.baseUrl}/${id}`);
   }
 
-  create(payload: Omit<RoutineDto, 'id'>): Observable<RoutineDto> {
-    return this.http.post<RoutineDto>(this.baseUrl, payload);
+  create(payload: RoutineFormData): Observable<{ message: string; routineId: number }> {
+    return this.http.post<{ message: string; routineId: number }>(this.baseUrl, payload);
   }
 
-  update(id: string, payload: Partial<RoutineDto>): Observable<RoutineDto> {
-    return this.http.patch<RoutineDto>(`${this.baseUrl}/${id}`, payload);
+  update(id: string, payload: Partial<RoutineFormData>): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`${this.baseUrl}/${id}`, payload);
   }
 
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  delete(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`);
   }
 }

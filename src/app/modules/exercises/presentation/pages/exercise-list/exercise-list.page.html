@@ -1,46 +1,95 @@
-<section class="wf-exercises">
-  <header class="wf-page-head wf-rise">
-    <span class="wf-eyebrow">Catálogo de movimientos</span>
-    <h1>EJERCICIOS</h1>
-    <p>Cada movimiento con sus series y repeticiones objetivo.</p>
-  </header>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Ejercicios</h1>
+    <p class="text-muted mb-0" *ngIf="session.isAdmin">CRUD de ejercicios disponibles para las rutinas.</p>
+    <p class="text-muted mb-0" *ngIf="!session.isAdmin">Consulta de ejercicios disponibles.</p>
+  </div>
+  <button class="btn btn-outline-secondary" type="button" (click)="loadExercises()">Recargar</button>
+</div>
 
-  <ng-container *ngIf="exercises$ | async as exercises; else loading">
-    <ul class="wf-ex-grid" *ngIf="exercises.length > 0; else empty">
-      <li
-        class="wf-ex wf-rise"
-        *ngFor="let e of exercises; let i = index"
-        [attr.data-group]="e.muscleGroup"
-        [style.animation-delay]="(i * 0.05) + 's'">
-        <span class="wf-ex__chip">{{ muscleLabels[e.muscleGroup] }}</span>
+<div class="alert alert-success" *ngIf="message">{{ message }}</div>
+<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-        <h3 class="wf-ex__name">{{ e.name }}</h3>
+<div class="row g-3">
+  <div class="col-lg-4" *ngIf="session.isAdmin">
+    <div class="page-card p-3">
+      <h2 class="h5 mb-3">{{ editing ? 'Editar ejercicio' : 'Nuevo ejercicio' }}</h2>
 
-        <div class="wf-ex__metrics">
-          <span class="wf-ex__metric">
-            <span class="v">{{ e.sets }}</span>
-            <span class="k">series</span>
-          </span>
-          <span class="wf-ex__times">×</span>
-          <span class="wf-ex__metric">
-            <span class="v">{{ e.reps }}</span>
-            <span class="k">reps</span>
-          </span>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" type="text" formControlName="name" placeholder="Press de banca">
         </div>
-      </li>
-    </ul>
-  </ng-container>
 
-  <ng-template #empty>
-    <div class="wf-empty">
-      <h3>Sin ejercicios todavía</h3>
-      <p>Aún no hay movimientos en el catálogo. Vuelve pronto.</p>
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-control" rows="3" formControlName="description"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Grupo muscular</label>
+          <select class="form-select" formControlName="muscleGroup">
+            <option *ngFor="let option of muscleOptions" [value]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label class="form-label">Series</label>
+            <input class="form-control" type="number" min="1" formControlName="sets">
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label">Repeticiones</label>
+            <input class="form-control" type="number" min="1" formControlName="reps">
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary" type="submit" [disabled]="saving">
+            {{ saving ? 'Guardando...' : (editing ? 'Actualizar' : 'Crear') }}
+          </button>
+          <button class="btn btn-secondary" type="button" *ngIf="editing" (click)="cancelEdit()">Cancelar</button>
+        </div>
+      </form>
     </div>
-  </ng-template>
+  </div>
 
-  <ng-template #loading>
-    <ul class="wf-ex-grid" aria-hidden="true">
-      <li class="wf-ex-skeleton" *ngFor="let s of [1,2,3,4,5,6,7,8]"></li>
-    </ul>
-  </ng-template>
-</section>
+  <div [class.col-lg-8]="session.isAdmin" [class.col-12]="!session.isAdmin">
+    <div class="page-card p-3">
+      <p class="text-muted" *ngIf="loading">Cargando ejercicios...</p>
+      <div class="table-responsive" *ngIf="!loading">
+        <table class="table table-striped table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Ejercicio</th>
+              <th>Grupo</th>
+              <th>Series</th>
+              <th>Reps</th>
+              <th class="text-end" *ngIf="session.isAdmin">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of exercises">
+              <td>{{ e.id }}</td>
+              <td>
+                <strong>{{ e.name }}</strong>
+                <div class="small text-muted">{{ e.description || 'Sin descripción' }}</div>
+              </td>
+              <td>{{ muscleLabels[e.muscleGroup] }}</td>
+              <td>{{ e.sets }}</td>
+              <td>{{ e.reps }}</td>
+              <td class="text-end" *ngIf="session.isAdmin">
+                <button class="btn btn-sm btn-outline-primary me-2" type="button" (click)="edit(e)">Editar</button>
+                <button class="btn btn-sm btn-outline-danger" type="button" (click)="delete(e)">Eliminar</button>
+              </td>
+            </tr>
+            <tr *ngIf="exercises.length === 0">
+              <td [attr.colspan]="session.isAdmin ? 6 : 5" class="text-center text-muted">No hay ejercicios activos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

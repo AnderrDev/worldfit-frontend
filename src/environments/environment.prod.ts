@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.worldfit.example.com/api/v1'
+  apiUrl: 'http://localhost:4000/api/v1'
 };

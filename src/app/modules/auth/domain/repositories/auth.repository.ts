@@ -7,6 +7,6 @@ import { AuthSession } from '../entities/user.entity';
  */
 export abstract class AuthRepository {
   abstract login(email: string, password: string): Observable<AuthSession>;
-  abstract register(email: string, password: string, fullName: string): Observable<AuthSession>;
+  abstract register(email: string, password: string, fullName: string): Observable<void>;
   abstract logout(): Observable<void>;
 }

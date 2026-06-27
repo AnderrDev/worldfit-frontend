@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, mapTo } from 'rxjs';
 import { RoutineRepository } from '../../domain/repositories/routine.repository';
-import { Routine } from '../../domain/entities/routine.entity';
+import { Routine, RoutineFormData } from '../../domain/entities/routine.entity';
 import { RoutineRemoteDataSource, RoutineDto } from '../datasources/routine-remote.datasource';
 
 @Injectable()
@@ -18,19 +18,27 @@ export class RoutineRepositoryImpl extends RoutineRepository {
     return this.remote.findById(id).pipe(map((dto) => this.toDomain(dto)));
   }
 
-  override create(routine: Omit<Routine, 'id' | 'totalExercises'>): Observable<Routine> {
-    return this.remote.create(routine).pipe(map((dto) => this.toDomain(dto)));
+  override create(routine: RoutineFormData): Observable<void> {
+    return this.remote.create(routine).pipe(mapTo(void 0));
   }
 
-  override update(id: string, routine: Partial<Routine>): Observable<Routine> {
-    return this.remote.update(id, routine).pipe(map((dto) => this.toDomain(dto)));
+  override update(id: string, routine: Partial<RoutineFormData>): Observable<void> {
+    return this.remote.update(id, routine).pipe(mapTo(void 0));
   }
 
   override delete(id: string): Observable<void> {
-    return this.remote.delete(id);
+    return this.remote.delete(id).pipe(mapTo(void 0));
   }
 
   private toDomain(dto: RoutineDto): Routine {
-    return new Routine(dto.id, dto.name, dto.description, dto.difficulty, dto.exerciseIds);
+    return new Routine(
+      String(dto.id),
+      dto.name,
+      dto.description,
+      dto.difficulty,
+      (dto.exerciseIds ?? []).map(String),
+      dto.assignedUserId,
+      dto.assignmentStatus
+    );
   }
 }
